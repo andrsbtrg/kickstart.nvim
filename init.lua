@@ -286,7 +286,7 @@ vim.o.termguicolors = true
 -- [[ Basic Keymaps ]]
 -- Save with Control + s
 vim.keymap.set('n', '<C-s>', ':w<CR>', { silent = true })
-vim.keymap.set('n', '<C-b>', ':Neotree toggle<CR>', { desc = 'Toggle Tree', silent = true })
+vim.keymap.set('n', '<C-b>', ':NeoTreeFloatToggle<CR>', { desc = 'Toggle Tree', silent = true })
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
