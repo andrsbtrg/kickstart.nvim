@@ -12,7 +12,7 @@ return {
 
     require('neo-tree').setup {
       window = {
-        width = 24,
+        position = "float",
       }
     }
   end,

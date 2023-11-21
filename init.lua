@@ -134,14 +134,17 @@ require('lazy').setup({
     },
   },
 
-  -- {
-  --   -- Theme inspired by Atom
-  --   'navarasu/onedark.nvim',
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'onedark'
-  --   end,
-  -- },
+  {
+    'nyoom-engineering/oxocarbon.nvim',
+  },
+  {
+    -- Theme inspired by Atom
+    'sainnhe/gruvbox-material',
+    priority = 1000,
+    config = function()
+      -- require('gruvbox-material').setup()
+    end,
+  },
 
   {
     -- Set lualine as statusline
@@ -162,9 +165,10 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
+    main = "ibl",
     opts = {
-      char = '│',
-      show_trailing_blankline_indent = false,
+      -- char = '│',
+      -- show_trailing_blankline_indent = false,
     },
   },
 
@@ -212,6 +216,15 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
+require("ibl").setup({
+  indent = {
+    char = '│',
+  },
+  whitespace = {
+    remove_blankline_trail = true,
+  },
+  scope = { enabled = false, }
+})
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -286,7 +299,7 @@ vim.o.termguicolors = true
 -- [[ Basic Keymaps ]]
 -- Save with Control + s
 vim.keymap.set('n', '<C-s>', ':w<CR>', { silent = true })
-vim.keymap.set('n', '<C-b>', ':NeoTreeFloatToggle<CR>', { desc = 'Toggle Tree', silent = true })
+vim.keymap.set('n', '<C-b>', ':Neotree toggle<CR>', { desc = 'Toggle Tree', silent = true })
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -632,3 +645,5 @@ rt.setup({
   },
 })
 vim.filetype.add({ extension = { wgsl = "wgsl" } })
+
+vim.g.gruvbox_material_transparent_background = 1
