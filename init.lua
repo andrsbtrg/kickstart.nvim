@@ -782,6 +782,13 @@ require('lazy').setup({
 
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+          -- Set cmp for vim-dadbod autocomplete
+          cmp.setup.filetype({ 'sql' }, {
+            sources = {
+              { name = 'vim-dadbod-completion' },
+              -- { name = 'buffer' },
+            },
+          }),
         },
         sources = {
           { name = 'nvim_lsp' },
