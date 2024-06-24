@@ -14,6 +14,9 @@ return {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
+    -- python config
+    'mfussenegger/nvim-dap-python',
+
     -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
 
@@ -84,6 +87,7 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
+    require('dap-python').setup 'python'
     -- Install golang specific config
     -- require('dap-go').setup {
     --   delve = {
