@@ -185,6 +185,36 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- Define the directory names to check
+local dirs_to_check = { '.venv', 'venv' }
+
+-- Function to check if a directory exists
+local function directory_exists(dir)
+  local stat = vim.loop.fs_stat(dir)
+  return stat and stat.type == 'directory'
+end
+
+-- Open the terminal and start venv
+vim.keymap.set('n', '<leader>ot', function()
+  vim.cmd 'vsplit'
+  vim.cmd 'terminal'
+  local cwd = vim.fn.getcwd()
+  -- Check if either .venv or venv exists in the current working directory
+  local found_venv = false
+  for _, dir in ipairs(dirs_to_check) do
+    if directory_exists(cwd .. '/' .. dir) then
+      found_venv = true
+      break
+    end
+  end
+  vim.fn.feedkeys 'a'
+  local enter = vim.api.nvim_replace_termcodes('<CR>', true, true, true)
+  vim.fn.feedkeys('clear' .. enter)
+  if found_venv then
+    vim.fn.feedkeys('source venv/bin/activate' .. enter)
+  end
+end, { desc = '[O]pen [T]erminal' })
+
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
