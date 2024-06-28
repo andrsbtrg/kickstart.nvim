@@ -88,6 +88,13 @@ return {
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
     require('dap-python').setup 'python'
+    table.insert(require('dap').configurations.python, {
+      type = 'python',
+      request = 'launch',
+      name = 'Debug all code',
+      program = '${file}',
+      justMyCode = false,
+    })
     -- Install golang specific config
     -- require('dap-go').setup {
     --   delve = {
