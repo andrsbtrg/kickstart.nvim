@@ -196,7 +196,12 @@ end
 
 -- Open the terminal and start venv
 vim.keymap.set('n', '<leader>ot', function()
-  vim.cmd 'vsplit'
+  -- Calculate the terminal width (39% of the total window width)
+  local total_width = vim.o.columns
+  local terminal_width = math.floor(total_width * 0.36)
+
+  -- Open vertical split with the desired width
+  vim.cmd(terminal_width .. 'vsplit')
   vim.cmd 'terminal'
   local cwd = vim.fn.getcwd()
   -- Check if either .venv or venv exists in the current working directory
