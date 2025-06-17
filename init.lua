@@ -167,7 +167,6 @@ function Transparent(color)
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
   -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
 end
--- Transparent 'default'
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
@@ -203,6 +202,7 @@ vim.keymap.set('n', '<leader>ot', function()
   -- Open vertical split with the desired width
   vim.cmd(terminal_width .. 'vsplit')
   vim.cmd 'terminal'
+  vim.cmd 'setlocal nonumber norelativenumber'
   local cwd = vim.fn.getcwd()
   -- Check if either .venv or venv exists in the current working directory
   local found_venv = false
@@ -859,16 +859,57 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
-
-      require('mini.files').setup {
-        options = {
-          permanently_delete = false,
-        },
-      }
     end,
     keys = {
       { '\\', ':lua MiniFiles.open()<CR>', silent = true, { desc = 'Files' } },
     },
+  },
+  {
+    'echasnovski/mini.files',
+
+    config = function()
+      require('mini.files').setup {
+        mappings = {
+          synchronize = '=',
+          go_in_plus = '<CR>',
+        },
+      }
+
+      local show_dotfiles = true
+
+      local filter_show = function(fs_entry)
+        return true
+      end
+
+      local filter_hide = function(fs_entry)
+        return not vim.startswith(fs_entry.name, '.')
+      end
+
+      local gio_open = function()
+        local fs_entry = require('mini.files').get_fs_entry()
+        vim.notify(vim.inspect(fs_entry))
+        vim.fn.system(string.format("gio open '%s'", fs_entry.path))
+      end
+
+      local toggle_dotfiles = function()
+        show_dotfiles = not show_dotfiles
+        local new_filter = show_dotfiles and filter_show or filter_hide
+        require('mini.files').refresh { content = { filter = new_filter } }
+      end
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesBufferCreate',
+        callback = function(args)
+          local buf_id = args.data.buf_id
+          -- Tweak left-hand side of mapping to your liking
+          vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id })
+          vim.keymap.set('n', '\\', require('mini.files').close, { buffer = buf_id })
+          vim.keymap.set('n', 'go', gio_open, { buffer = buf_id })
+        end,
+      })
+    end,
+
+    lazy = false,
   },
   {
     'nvim-lualine/lualine.nvim',
