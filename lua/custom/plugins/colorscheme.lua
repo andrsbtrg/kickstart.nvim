@@ -1,8 +1,15 @@
+-- lua/plugins/rose-pine.lua
 return {
-  'dgox16/oldworld.nvim',
-  lazy = false,
-  priority = 1000,
+  'rose-pine/neovim',
+  name = 'rose-pine',
   config = function()
-    vim.cmd.colorscheme 'oldworld'
+    require('rose-pine').setup {
+      styles = {
+        bold = true,
+        italic = false,
+        transparency = true,
+      },
+    }
+    vim.cmd 'colorscheme rose-pine'
   end,
 }
