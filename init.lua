@@ -1,3 +1,4 @@
+vim.opt.fillchars = { eob = ' ' }
 vim.opt.termguicolors = true
 
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
