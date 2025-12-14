@@ -24,7 +24,7 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
@@ -71,9 +71,11 @@ vim.keymap.set('n', '<leader>ot', function()
   local cwd = vim.fn.getcwd()
   -- Check if either .venv or venv exists in the current working directory
   local found_venv = false
+  local dir_found = ''
   for _, dir in ipairs(dirs_to_check) do
     if directory_exists(cwd .. '/' .. dir) then
       found_venv = true
+      dir_found = dir
       break
     end
   end
@@ -81,7 +83,7 @@ vim.keymap.set('n', '<leader>ot', function()
   local enter = vim.api.nvim_replace_termcodes('<CR>', true, true, true)
   vim.fn.feedkeys('clear' .. enter)
   if found_venv then
-    vim.fn.feedkeys('source venv/bin/activate' .. enter)
+    vim.fn.feedkeys('source ./' .. dir_found .. '/bin/activate' .. enter)
   end
 end, { desc = '[O]pen [T]erminal' })
 
