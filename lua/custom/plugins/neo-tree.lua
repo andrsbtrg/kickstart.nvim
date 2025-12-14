@@ -11,9 +11,13 @@ return {
   },
   lazy = false,
   keys = {
-    { '\\', ':Neotree float<CR>', desc = 'NeoTree', silent = true },
+    { '\\', ':Neotree<CR>', desc = 'NeoTree', silent = true },
   },
   opts = {
+    window = {
+      position = 'left',
+      width = 40,
+    },
     filesystem = {
       window = {
         mappings = {
